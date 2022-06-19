@@ -1,3 +1,5 @@
+package Services;
+
 import Models.Book;
 
 import java.sql.Connection;
@@ -38,26 +40,23 @@ public class BookService {
             Connection connection = DriverManager
                     .getConnection("jdbc:mysql://localhost:3308/library", "root", "Uzi2115");
 
-            System.out.println("insert into book (`idBook`, `name`, `pages`, `author`) values("+
+            System.out.println("insert into book (`idBook`, `name`, `pages`, `author`) values(" +
                     book.getIdBook() + ",'" +
                     book.getName() + "'," +
                     book.getPages() + "," +
-                    "'" +book.getAuthor() + "'"+")");
+                    "'" + book.getAuthor() + "'" + ")");
 
             Statement statement = connection.createStatement();
-            statement.executeUpdate("insert into book (idBook, name, pages, author) values("+
+            statement.executeUpdate("insert into book (idBook, name, pages, author) values(" +
                     book.getIdBook() + ",'" +
                     book.getName() + "'," +
                     book.getPages() + "," +
-                    "'" +book.getAuthor() + "'"+")");
-
-
-
-
+                    "'" + book.getAuthor() + "'" + ")");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public void deleteBook(String idBook) {
         var bookList = new ArrayList<Book>();
         try {
@@ -119,5 +118,4 @@ public class BookService {
         }
         return bookList;
     }
-
 }

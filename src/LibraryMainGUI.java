@@ -1,4 +1,5 @@
 import Models.Book;
+import Services.BookService;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -45,7 +46,7 @@ public class LibraryMainGUI extends JFrame {
                         textName.getText(),
                         textPages.getText(),
                         textAuthor.getText()
-                        );
+                );
                 BookService bs = new BookService();
                 bs.pushBook(b);
                 refreshBookList();
@@ -139,7 +140,7 @@ public class LibraryMainGUI extends JFrame {
             System.out.println("Removing all people from list");
             BookService bookService = new BookService();
             bookService.getBookList().forEach(value -> {
-                booksListModel.addElement(value.getIdBook() + ". " +value.getName());
+                booksListModel.addElement(value.getIdBook() + ". " + value.getName());
             });
             books.addAll(bookService.getBookList());
 
