@@ -31,4 +31,61 @@ public class BookService {
         }
         return bookList;
     }
+
+    public void pushBook(Book book) {
+        var bookList = new ArrayList<Book>();
+        try {
+            Connection connection = DriverManager
+                    .getConnection("jdbc:mysql://localhost:3308/library", "root", "Uzi2115");
+
+            System.out.println("insert into book (`idBook`, `name`, `pages`, `author`) values("+
+                    book.getIdBook() + ",'" +
+                    book.getName() + "'," +
+                    book.getPages() + "," +
+                    "'" +book.getAuthor() + "'"+")");
+
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("insert into book (`idBook`, `name`, `pages`, `author`) values(%s,'%s',%s,'%s');"
+                    .formatted(book.getIdBook(), book.getName(), book.getPages(), book.getAuthor()));
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void deleteBook(String idBook) {
+        var bookList = new ArrayList<Book>();
+        try {
+            Connection connection = DriverManager
+                    .getConnection("jdbc:mysql://localhost:3308/library", "root", "Uzi2115");
+
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("delete from book where idBook = %s".formatted(idBook));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateBook(Book book) {
+        var bookList = new ArrayList<Book>();
+        try {
+            Connection connection = DriverManager
+                    .getConnection("jdbc:mysql://localhost:3308/library", "root", "Uzi2115");
+
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("update book" +
+                    "set idBook = 2" +
+                    "set name = '2'" +
+                    "set pages = 2" +
+                    "set author = '2'" +
+                    "where idBook = 2;");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
