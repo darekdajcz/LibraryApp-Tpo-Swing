@@ -22,6 +22,8 @@ public class LibraryMainGUI extends JFrame {
     private JButton updateBookButton;
     private JButton deleteBookButton;
     private JTextField textDeleteBook;
+    private JTextField textSearch;
+    private JButton searchButton;
 
     private ArrayList<Book> books;
     private DefaultListModel<String> booksListModel;
@@ -55,11 +57,14 @@ public class LibraryMainGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int bookNumber = bookList.getSelectedIndex();
                 if (bookNumber >= 0) {
-                    Book b = books.get(bookNumber);
-                    b.setIdBook(textIdBook.getText());
-                    b.setName(textName.getText());
-                    b.setAuthor(textAuthor.getText());
-                    b.setPages(textPages.getText());
+                    Book updateBook = new Book(
+                            textIdBook.getText(),
+                            textName.getText(),
+                            textPages.getText(),
+                            textAuthor.getText()
+                    );
+                    BookService bs = new BookService();
+                    bs.updateBook(updateBook);
                     refreshBookList();
                 }
             }
@@ -75,8 +80,10 @@ public class LibraryMainGUI extends JFrame {
                     textPages.setText(b.getPages());
                     textAuthor.setText(b.getAuthor());
                     updateBookButton.setEnabled(true);
+                    textIdBook.setEnabled(false);
                 } else {
                     updateBookButton.setEnabled(false);
+                    textIdBook.setEnabled(true);
                 }
             }
         });
@@ -98,6 +105,18 @@ public class LibraryMainGUI extends JFrame {
                 bookService.deleteBook(textDeleteBook.getText());
                 System.out.println("Book with id " + textDeleteBook.getText() + " has been deleted..");
                 refreshBookList();
+            }
+        });
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BookService bs = new BookService();
+                var bookList = bs.searchBooksList(textSearch.getText());
+                booksListModel.removeAllElements();
+                bookList.forEach(value -> {
+                    booksListModel.addElement(value.getIdBook() + ". " + value.getName());
+                });
+
             }
         });
     }
@@ -122,6 +141,7 @@ public class LibraryMainGUI extends JFrame {
             bookService.getBookList().forEach(value -> {
                 booksListModel.addElement(value.getIdBook() + ". " +value.getName());
             });
+            books.addAll(bookService.getBookList());
 
         }
     }
